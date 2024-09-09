@@ -52,7 +52,7 @@ export function App() {
             </div>
             <footer className="w-full max-w-4xl mt-8 bg-gray-800 text-white text-center p-4 rounded-lg shadow-xl">
                 <p className="text-sm md:text-base font-poppins">
-                    © {new Date().getFullYear()} Created by Tahcin Ul Karim (Mycin)
+                    © {new Date().getFullYear()} Created by Tahcin Ul Karim (Mycin) - 12514013
                 </p>
             </footer>
         </div>
