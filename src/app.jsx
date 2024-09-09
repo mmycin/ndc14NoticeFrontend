@@ -20,8 +20,8 @@ export function App() {
     }, []);
 
     return (
-        <div className="min-h-screen flex items-center justify-center p-6 relative">
-            <div className="w-full max-w-4xl bg-white bg-opacity-80 backdrop-blur-lg rounded-lg shadow-xl p-6 md:p-8">
+        <div className="min-h-screen flex flex-col items-center justify-center p-6 relative">
+            <div className="w-full max-w-4xl bg-white bg-opacity-80 backdrop-blur-lg rounded-lg shadow-xl p-6 md:p-8 flex-grow">
                 <h1 className="text-3xl md:text-5xl font-extrabold text-gray-800 text-center mb-6 md:mb-8 font-poppins">
                     Notice for Group - 14 of NDC
                 </h1>
@@ -50,6 +50,11 @@ export function App() {
                     </ul>
                 )}
             </div>
+            <footer className="w-full max-w-4xl mt-8 bg-gray-800 text-white text-center p-4 rounded-lg shadow-xl">
+                <p className="text-sm md:text-base font-poppins">
+                    © {new Date().getFullYear()} Created by Tahcin Ul Karim (Mycin)
+                </p>
+            </footer>
         </div>
     );
 }
