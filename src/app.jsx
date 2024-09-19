@@ -40,7 +40,7 @@ export function App() {
                                     {notice.title}
                                 </h2>
                                 <p className="text-sm md:text-base text-gray-500 mb-4 font-roboto">
-                                    {new Date(notice.date).toLocaleDateString()}
+                                    {notice.date}
                                 </p>
                                 <p className="text-sm md:text-base text-gray-700 leading-relaxed font-roboto">
                                     {notice.content}
