@@ -19,6 +19,17 @@ export function App() {
             });
     }, []);
 
+    // Function to sanitize content and add custom styles to <a> tags
+    const createMarkup = (content) => {
+        // Return HTML with links styled
+        return {
+            __html: content.replace(
+                /<a /g,
+                '<a style="color: blue; text-decoration: underline;" '
+            ),
+        };
+    };
+
     return (
         <div className="min-h-screen flex flex-col items-center justify-center p-6 relative">
             <div className="w-full max-w-4xl bg-white bg-opacity-80 backdrop-blur-lg rounded-lg shadow-xl p-6 md:p-8 flex-grow">
@@ -42,9 +53,10 @@ export function App() {
                                 <p className="text-sm md:text-base text-gray-500 mb-4 font-roboto">
                                     {notice.date}
                                 </p>
-                                <p className="text-sm md:text-base text-gray-700 leading-relaxed font-roboto">
-                                    {notice.content}
-                                </p>
+                                <div
+                                    className="text-sm md:text-base text-gray-700 leading-relaxed font-roboto"
+                                    dangerouslySetInnerHTML={createMarkup(notice.content)}
+                                />
                             </li>
                         ))}
                     </ul>
