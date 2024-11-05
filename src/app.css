@@ -2,3 +2,80 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* app.css */
+body {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    background-color: #f7fafc; /* Soft gray background */
+}
+
+h1, h2 {
+    font-family: 'Poppins', sans-serif;
+}
+
+.bg-white {
+    background-color: white;
+}
+
+.bg-gray-100 {
+    background-color: #f7fafc; /* Light gray background */
+}
+
+.shadow-lg {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.transition-transform {
+    transition: transform 0.3s;
+}
+
+.hover\:scale-105:hover {
+    transform: scale(1.05);
+}
+
+.font-poppins {
+    font-family: 'Poppins', sans-serif;
+}
+
+.leading-relaxed {
+    line-height: 1.6;
+}
+
+.text-blue-800 {
+    color: #1e3a8a; /* Dark blue for headings */
+}
+
+.text-gray-600 {
+    color: #4a5568; /* Gray color for subtitles */
+}
+
+.text-gray-500 {
+    color: #6b7280; /* Medium gray for date */
+}
+
+.text-gray-700 {
+    color: #374151; /* Dark gray for content text */
+}
+
+.text-gray-900 {
+    color: #111827; /* Very dark gray for footer text */
+}
+
+.hover\:shadow-2xl:hover {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+}

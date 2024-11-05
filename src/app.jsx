@@ -19,52 +19,58 @@ export function App() {
             });
     }, []);
 
-    // Function to sanitize content and add custom styles to <a> tags
-    const createMarkup = (content) => {
-        // Return HTML with links styled
-        return {
-            __html: content.replace(
-                /<a /g,
-                '<a style="color: blue; text-decoration: underline;" '
-            ),
-        };
-    };
+    const createMarkup = (content) => ({
+        __html: content.replace(
+            /<a /g,
+            '<a style="color: #3B82F6; text-decoration: underline;" '
+        ),
+    });
 
     return (
-        <div className="min-h-screen flex flex-col items-center justify-center p-6 relative">
-            <div className="w-full max-w-4xl bg-white bg-opacity-80 backdrop-blur-lg rounded-lg shadow-xl p-6 md:p-8 flex-grow">
-                <h1 className="text-3xl md:text-5xl font-extrabold text-gray-800 text-center mb-6 md:mb-8 font-poppins">
-                    Notice for Group - 14 of NDC
+        <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 text-gray-300 flex flex-col items-center p-6">
+            <header className="w-full max-w-4xl py-10 mb-8 bg-opacity-80 backdrop-blur-md rounded-lg shadow-lg text-center transition-transform transform hover:scale-105 duration-300">
+                <h1 className="text-4xl sm:text-5xl font-extrabold text-blue-400 tracking-tight font-poppins">
+                    NDC Group 14 Notice Board
                 </h1>
+                <p className="text-gray-400 mt-2 text-lg font-roboto">
+                    Stay updated with the latest notices
+                </p>
+            </header>
+
+            <main className="w-full max-w-4xl flex-grow">
                 {loading ? (
-                    <p className="text-lg md:text-xl font-semibold text-gray-700 font-roboto text-center">
+                    <p className="text-center text-gray-400 font-semibold text-xl animate-pulse">
                         Loading notices...
                     </p>
                 ) : (
-                    <ul className="space-y-4 md:space-y-6">
+                    <ul className="space-y-6">
                         {notices.map((notice, index) => (
                             <li
                                 key={index}
-                                className="bg-white bg-opacity-90 border border-gray-300 p-4 md:p-6 rounded-xl shadow-md hover:shadow-2xl transition-all duration-300 transform hover:scale-105"
+                                className="p-6 bg-gray-800 shadow-md rounded-lg border border-gray-700 transition duration-300 hover:shadow-xl transform hover:scale-105"
                             >
-                                <h2 className="text-xl md:text-2xl font-semibold text-indigo-800 mb-2 font-poppins">
+                                <h2 className="text-2xl font-semibold text-blue-400 font-poppins mb-2">
                                     {notice.title}
                                 </h2>
-                                <p className="text-sm md:text-base text-gray-500 mb-4 font-roboto">
+                                <p className="text-gray-500 text-sm font-roboto mb-4">
                                     {notice.date}
                                 </p>
                                 <div
-                                    className="text-sm md:text-base text-gray-700 leading-relaxed font-roboto"
+                                    className="text-gray-300 leading-relaxed font-roboto"
                                     dangerouslySetInnerHTML={createMarkup(notice.content)}
                                 />
                             </li>
                         ))}
                     </ul>
                 )}
-            </div>
-            <footer className="w-full max-w-4xl mt-8 bg-gray-800 text-white text-center p-4 rounded-lg shadow-xl">
-                <p className="text-sm md:text-base font-poppins">
+            </main>
+
+            <footer className="w-full max-w-4xl mt-12 p-4 bg-gray-800 text-gray-400 text-center rounded-lg shadow-lg">
+                <p className="text-sm font-poppins">
                     © {new Date().getFullYear()} Created by Tahcin Ul Karim (Mycin) - 12514013
+                </p>
+                <p className="mt-1 text-gray-500 text-xs">
+                    All rights reserved | Notre Dame College, Dhaka
                 </p>
             </footer>
         </div>
