@@ -3,6 +3,81 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap");
+
+/* Base Styles */
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #1a1a1a; /* Dark background */
+    color: #e0e0e0;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.5s ease-out forwards;
+}
+
+.animate-slide-up {
+    animation: slideUp 0.5s ease-out forwards;
+}
+
+/* Hover Effects */
+.hover:scale-105:hover {
+    transform: scale(1.05);
+}
+
+/* Pagination Button Styling */
+/* Pagination Button Styling */
+button {
+    transition: all 0.3s ease;
+    font-size: 14px;
+    padding: 10px 16px;
+    background: none;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+button:hover {
+    color: #6366f1; /* Indigo */
+    transform: scale(1.05);
+}
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Page Number Styling */
+span {
+    font-size: 18px;
+    font-weight: bold;
+    color: #e5e7eb; /* Gray */
+}
+
+
 /* app.css */
 body {
     margin: 0;
