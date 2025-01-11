@@ -225,10 +225,14 @@
                                         class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4"
                                     >
                                         <h2
-                                            class="text-xl font-bold text-white group-hover:text-blue-400 transition-colors duration-300"
+                                            class="text-2xl font-extrabold text-indigo-300 bg-clip-text text-transparent
+           bg-gradient-to-r from-blue-400 to-purple-600
+           group-hover:from-purple-600 group-hover:to-blue-400
+           transition-all duration-300 ease-in-out"
                                         >
                                             {notice.title}
                                         </h2>
+
                                         <div class="flex items-center gap-3">
                                             <span
                                                 class="px-3 py-1 text-sm font-medium bg-blue-500/10 text-blue-400 rounded-full"
@@ -325,10 +329,10 @@
 
 <style>
     img {
-        width: 100%; 
-        max-width: 400px; 
-        height: auto; 
-        border-radius: 8px; 
+        width: 100%;
+        max-width: 400px;
+        height: auto;
+        border-radius: 8px;
         margin-top: 10px;
         max-height: 400px;
     }
