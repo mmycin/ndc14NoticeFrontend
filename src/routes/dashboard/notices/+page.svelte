@@ -91,7 +91,7 @@
                 Notice Board
             </h1>
             <p class="text-gray-400 max-w-2xl mx-auto">
-                Stay updated with the latest announcements and information
+                Manage all the notices for the NDC Group 14 Notice Board
             </p>
             <button 
                 class="mt-6 px-6 py-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg text-white text-sm font-medium hover:shadow-lg transition-all duration-300"
