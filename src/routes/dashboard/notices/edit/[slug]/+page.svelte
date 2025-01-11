@@ -95,11 +95,13 @@
             formData.append("upload_preset", uploadPreset);
 
             try {
-                const response = await axios.post(
-                    `https://api.cloudinary.com/v1_1/${cloudName}/raw/upload`,
+                 const response = await axios.post(
+                    `https://api.cloudinary.com/v1_1/${cloudName}/auto/upload`,
                     formData,
-                    { headers: { "Content-Type": "multipart/form-data" } }
-                );
+                    {
+                        headers: { "Content-Type": "multipart/form-data" },
+                        params: { resource_type: "auto", chunk_size: 6000000 }, // Set chunk size to 6 MB
+                    });
 
                 const data = await response.data;
                 uploadedUrls.push(data.secure_url);
