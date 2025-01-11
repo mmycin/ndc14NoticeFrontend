@@ -117,7 +117,7 @@
                             {#if getFileType(file) === "pdf"}
                                 <div class="flex justify-center mt-4">
                                     <a
-                                        href={`https://res.cloudinary.com/djqao3rbs/raw/upload/fl_attachment/${file.filename.split("/raw/upload/")[1]}`}
+                                        href={`https://res.cloudinary.com/djqao3rbs/image/upload/fl_attachment/${file.filename.split("/image/upload/")[1]}`}
                                         download={file.filename}
                                         class="px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-semibold text-lg"
                                     >
