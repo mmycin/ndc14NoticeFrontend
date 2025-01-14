@@ -62,22 +62,22 @@
             : "bg-gradient-to-r from-gray-900/90 to-gray-800/90 backdrop-blur-sm"
     }`}
 >
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="container mx-auto px-2 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-16 md:h-20">
             <!-- Logo Section -->
             <a href="/" class="flex items-center space-x-3 group">
                 <img
                     src="/ndc.png"
                     alt="NDC Logo"
-                    class="h-10 w-10 md:h-12 md:w-12 transition-transform duration-300 group-hover:scale-110"
+                    class="h-8 w-8 md:h-12 md:w-12 transition-transform duration-300 group-hover:scale-110"
                 />
             </a>
 
             <!-- Title Section -->
-            <div class="absolute left-1/2 transform -translate-x-1/2">
+            <div class="flex-1 mx-4">
                 <a href="/" class="group">
                     <h1
-                        class="text-lg md:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 transition-all duration-300 group-hover:from-blue-500 group-hover:to-purple-500"
+                        class="text-base md:text-3xl font-bold md:ml-20 text-center text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 transition-all duration-300 group-hover:from-blue-500 group-hover:to-purple-500 whitespace-nowrap"
                         style='font-family: "Dancing Script", cursive;'
                     >
                         Notre Dame College, Dhaka

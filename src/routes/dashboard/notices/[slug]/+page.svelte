@@ -104,7 +104,7 @@
                 <div class="px-6 py-8 sm:px-8">
                     <div class="prose prose-invert max-w-none">
                         <p class="text-gray-300 leading-relaxed">
-                            {notice.content}
+                            {@html notice.content}
                         </p>
                     </div>
                 </div>
