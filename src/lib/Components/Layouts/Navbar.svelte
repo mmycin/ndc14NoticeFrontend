@@ -76,7 +76,6 @@
             </a>
 
             <!-- Title Section -->
-            <!-- Title Section -->
             <div class="absolute inset-0 flex justify-center items-center">
                 <a href="/" class="group pointer-events-auto">
                     <h1
@@ -106,8 +105,8 @@
                                 currentPath === path
                                     ? "scale-x-100"
                                     : "scale-x-0 group-hover:scale-x-100"
-                            }`}
-                        ></span>
+                            }`}></span
+                        >
                     </a>
                 {/each}
 
@@ -124,8 +123,9 @@
 
             <!-- Mobile Menu Button -->
             <button
-                class="lg:hidden p-2 rounded-lg text-gray-300 hover:text-blue-400 focus:outline-none"
+                class="lg:hidden p-2 rounded-lg text-gray-300 hover:text-blue-400 focus:outline-none z-60"
                 on:click={() => (isMenuOpen = !isMenuOpen)}
+                style="position: relative; z-index: 60;"
             >
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -161,6 +161,14 @@
             transition:slide={{ duration: 300 }}
             class="lg:hidden bg-gray-900/95 backdrop-blur-md border-t border-gray-800"
         >
+            <!-- Add Title Text for Mobile -->
+            <div class="px-4 py-2 text-center text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 mb-4 transition-opacity duration-300"
+                class:opacity-100={isMenuOpen}
+                style="font-family: 'Dancing Script', cursive;"
+            >
+                Notre Dame College, Dhaka
+            </div>
+            
             <div class="px-4 pt-2 pb-4 space-y-3">
                 {#each [{ path: "/contact", label: "Contact" }, ...(isAuthenticated ? [{ path: "/dashboard", label: "Dashboard" }] : [])] as { path, label }}
                     <a
