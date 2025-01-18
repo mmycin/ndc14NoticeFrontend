@@ -37,8 +37,6 @@
             secondLatestBatchUsers = admins.filter(
                 (user) => user.batch === secondMaxBatch
             );
-
-            console.log({ latestBatchUsers, secondLatestBatchUsers });
         } catch (error) {
             console.error("Error fetching admins:", error);
         } finally {

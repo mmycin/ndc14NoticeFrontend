@@ -69,10 +69,7 @@ button {
     outline: none;
     cursor: pointer;
 }
-button:hover {
-    color: #6366f1; /* Indigo */
-    transform: scale(1.05);
-}
+
 button:disabled {
     opacity: 0.6;
     cursor: not-allowed;

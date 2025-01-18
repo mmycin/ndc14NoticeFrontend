@@ -46,13 +46,10 @@
             const response = await axios.get(`${import.meta.env.VITE_API_URL}/contacts/${data.slug}`);
             const res = await response.data.data;
             message = res;
-            console.log(message);
         });
     } catch (e) {
         Notification('Error fetching message', "error");
     }
-
-    console.log(data.slug);
 </script>
 
 <div class="p-6 max-w-2xl mx-auto bg-gray-900 text-gray-200 rounded-lg shadow-lg">

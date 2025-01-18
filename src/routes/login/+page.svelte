@@ -10,6 +10,9 @@
     let isSubmitting = false;
     let showPassword = false;
 
+    $: username = username.trim();
+    $: roll = roll.trim();
+
     if (typeof window !== 'undefined') {
         const token = localStorage.getItem("jwtToken");
         if (token && IsValidToken(token) && token.length > 0 && !IsTokenExpired(token)) {
@@ -80,6 +83,7 @@
                             <input
                                 type="text"
                                 bind:value={roll}
+                                autocomplete="on"
                                 class="w-full px-5 py-4 rounded-xl bg-gray-700/50 text-gray-100 border border-gray-600 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 placeholder-gray-400 transition-all duration-200 group-hover:border-gray-500"
                                 placeholder="College Roll Number"
                                 required

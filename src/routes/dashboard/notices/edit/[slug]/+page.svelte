@@ -40,7 +40,6 @@
         }
     }
 
-    console.log("ID", getUserID(), typeof getUserID());
     // Fetch notice and user data on mount
     onMount(async () => {
         try {
@@ -80,7 +79,6 @@
     function handleFileChange(event: Event) {
         const target = event.target as HTMLInputElement;
         if (target && target.files) {
-            console.log(target.files);
             files = Array.from(target.files);
         }
     }
@@ -105,7 +103,6 @@
 
                 const data = await response.data;
                 uploadedUrls.push(data.secure_url);
-                console.log(uploadedUrls);
                 // Collect uploaded file URLs
                 await Notification(`Updated file: ${file.name}`, "success");
             } catch (error) {
@@ -178,7 +175,6 @@
                 year: year === "1st Year" ? 1 : 2,
                 files: existingFiles.map((url) => ({ filename: url })), // Send the updated list of files
             };
-            console.log(updateData);
             // Update the notice with the new file list (after deletion)
             await axios.put(
                 `${import.meta.env.VITE_API_URL}/notices/${noticeId}`,

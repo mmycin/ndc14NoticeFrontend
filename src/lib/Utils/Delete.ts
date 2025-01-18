@@ -69,7 +69,6 @@ export async function DeleteItem(url: string, gotoUrl: string | null) {
             document.body.removeChild(dialog);
             try {
                 const response = await axios.delete(url);
-                console.log("Deleted successfully:", response);
                 Notification("Deleted Successfully", "success");
                 gotoUrl ? goto(gotoUrl) : goto(window.location.pathname);
                 resolve(true);

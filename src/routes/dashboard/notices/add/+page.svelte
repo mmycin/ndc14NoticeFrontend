@@ -73,9 +73,6 @@
                 // Extract URL from response
                 const data = await response.data;
                 uploadedUrls.push(data.secure_url); // Add the URL to the list of uploaded URLs
-                console.log(
-                    `Uploaded file: ${file.name}, URL: ${data.secure_url}`
-                );
                 await Notification(`Uploaded file: ${file.name}`, "success");
             } catch (error) {
                 console.error(`Error uploading file: ${file.name}`, error);
@@ -87,7 +84,6 @@
         await Promise.all(promises);
 
         loading = false; // Set loading state to false when upload is complete
-        console.log("All uploaded files:", uploadedUrls);
     }
 
     // Handle form submission

@@ -5,6 +5,7 @@
     import axios from "axios";
     import { onMount } from "svelte";
     import { fade, slide } from "svelte/transition";
+    import { IsTokenExpired, IsValidToken } from "$lib/Utils/Token";
 
     let currentPath;
     $: currentPath = $page.url.pathname;
@@ -20,7 +21,8 @@
 
     const updateAuthState = () => {
         const token = localStorage.getItem("jwtToken");
-        isAuthenticated = !!token;
+        isAuthenticated =
+            !!token && IsValidToken(token) && !IsTokenExpired(token);
     };
 
     const handleLogout = async () => {
@@ -74,11 +76,12 @@
             </a>
 
             <!-- Title Section -->
-            <div class="flex-1 mx-4">
-                <a href="/" class="group">
+            <!-- Title Section -->
+            <div class="absolute inset-0 flex justify-center items-center">
+                <a href="/" class="group pointer-events-auto">
                     <h1
-                        class="text-base md:text-3xl font-bold md:ml-20 text-center text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 transition-all duration-300 group-hover:from-blue-500 group-hover:to-purple-500 whitespace-nowrap"
-                        style='font-family: "Dancing Script", cursive;'
+                        class="text-base md:text-3xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 transition-all duration-300 group-hover:from-blue-500 group-hover:to-purple-500 whitespace-nowrap"
+                        style="font-family: 'Dancing Script', cursive;"
                     >
                         Notre Dame College, Dhaka
                     </h1>

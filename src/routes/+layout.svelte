@@ -11,12 +11,8 @@
         const token = localStorage.getItem('jwtToken');
         if(token && IsTokenExpired(token)) {
           localStorage.removeItem('jwtToken');
-        } else {
-          console.log('Token is not expired');
-        }
-      } else {
-        console.log('No User Logged In');
-      }
+        } 
+      } 
     } catch (error) {
       console.error(error);
     }

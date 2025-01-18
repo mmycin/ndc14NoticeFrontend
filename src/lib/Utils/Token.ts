@@ -23,7 +23,6 @@ export function IsValidToken(token: string): boolean {
 
         // Ensure the decoded payload has the 'exp' field (expiration timestamp)
         if (typeof decodedPayload.exp !== "number") {
-            console.log("Invalid token: Missing or invalid expiration field.");
             return false;
         }
 
@@ -31,15 +30,12 @@ export function IsValidToken(token: string): boolean {
 
         // Check if the token has expired
         if (decodedPayload.exp < currentTime) {
-            console.log("Token has expired.");
             return false;
         }
 
         // If no issues, the token is valid
-        console.log("Token is valid.");
         return true;
     } catch (e) {
-        console.log("Invalid token:", e);
         return false;
     }
 }

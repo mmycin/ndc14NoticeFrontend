@@ -39,18 +39,15 @@
 
         // Extract URL from response
         const data = await response.data;
-        await uploadedUrls.push(data.secure_url); // Add the URL to the list of uploaded URLs
-        console.log(`Uploaded file: ${file.name}, URL: ${data.secure_url}`);
+        await uploadedUrls.push(data.secure_url); 
         await Notification(`Uploaded file: ${file.name}`, "success");
       } catch (error) {
-        console.error(`Error uploading file: ${file.name}`, error);
+        Notification(`Error uploading file: ${file.name}`);
       }
     });
 
     // Wait for all upload promises to complete
     await Promise.all(promises);
-
-    console.log('All uploaded files:', uploadedUrls);
   }
 </script>
 
