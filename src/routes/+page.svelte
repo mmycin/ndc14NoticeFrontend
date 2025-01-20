@@ -253,7 +253,8 @@
                                     </div>
                                     <div class="prose prose-invert max-w-none">
                                         <div
-                                            class="text-gray-300 leading-relaxed"
+                                            class="text-slate-300 leading-relaxed [&_
+                                                   │ a]:text-blue-400 [&_a]:underline [&_a]:hover:text-blue-300"
                                         >
                                             {@html notice.content}
                                         </div>
