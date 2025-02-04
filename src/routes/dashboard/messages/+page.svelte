@@ -31,8 +31,6 @@
             const success = await DeleteItem(url);
             if (success) {
                 fetchMessages();
-            } else {
-                Notification("Error deleting message", "error");
             }
         } catch (e) {
             Notification("Error deleting message", "error");

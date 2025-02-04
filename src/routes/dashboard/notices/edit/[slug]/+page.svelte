@@ -25,7 +25,7 @@
     const uploadPreset = "ndc14-web-project";
 
     function getUserID() {
-        const token = localStorage.getItem("jwtToken");
+        const token = document.cookie;
         if (
             token &&
             token.length > 0 &&

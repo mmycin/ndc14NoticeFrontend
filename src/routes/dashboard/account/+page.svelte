@@ -11,7 +11,7 @@
 
     onMount(async () => {
         try {
-            const token = localStorage.getItem("jwtToken");
+            const token = document.cookie;
             if (!token) {
                 goto("/login");
             } else {

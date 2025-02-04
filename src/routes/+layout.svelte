@@ -1,23 +1,14 @@
 <script>
-  import { onMount } from "svelte";
   import Footer from "$lib/Components/Layouts/Footer.svelte";
   import "../app.css";
   import Navbar from "../lib/Components/Layouts/Navbar.svelte";
-  import { IsTokenExpired } from "$lib/Utils/Token";
-
-  export async function load() {
-    try {
-      if(localStorage.length > 0) {
-        const token = localStorage.getItem('jwtToken');
-        if(token && IsTokenExpired(token)) {
-          localStorage.removeItem('jwtToken');
-        } 
-      } 
-    } catch (error) {
-      console.error(error);
-    }
+  
+  try {
+    localStorage.clear();
+  } catch (e) {
+    console.error(e);
   }
-  onMount(() => { load() })
+  
 </script>
 
 <head>

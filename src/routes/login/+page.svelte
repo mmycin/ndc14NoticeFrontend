@@ -14,7 +14,7 @@
     $: roll = roll.trim();
 
     if (typeof window !== 'undefined') {
-        const token = localStorage.getItem("jwtToken");
+        const token = document.cookie;
         if (token && IsValidToken(token) && token.length > 0 && !IsTokenExpired(token)) {
             goto("/");
         }
@@ -34,6 +34,7 @@
             
             Notification("Login Successful!", "success");
             localStorage.setItem("jwtToken", response.data.token);
+            document.cookie = response.data.token;
             axios.defaults.headers["Authorization"] = `Bearer ${response.data.token}`;
             window.location.href = "/dashboard";
         } catch (error: any) {

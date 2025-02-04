@@ -22,7 +22,7 @@
     // Fetch user data on component mount
     onMount(async () => {
         try {
-            const token = localStorage.getItem("jwtToken");
+            const token = document.cookie;
             if (
                 token &&
                 token.length > 0 &&

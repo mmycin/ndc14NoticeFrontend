@@ -26,7 +26,7 @@
 
     onMount(async () => {
         try {
-            const token = localStorage.getItem("jwtToken");
+            const token = document.cookie;
             if (token && IsValidToken(token) && !IsTokenExpired(token)) {
                 const ID = getID(token);
                 const response = await axios.get(

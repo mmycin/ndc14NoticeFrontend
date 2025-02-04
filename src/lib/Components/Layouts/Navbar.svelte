@@ -20,7 +20,8 @@
     };
 
     const updateAuthState = () => {
-        const token = localStorage.getItem("jwtToken");
+        // const token = document.cookie;
+        const token = document.cookie;
         isAuthenticated =
             !!token && IsValidToken(token) && !IsTokenExpired(token);
     };
