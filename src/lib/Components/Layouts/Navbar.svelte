@@ -6,6 +6,7 @@
     import { onMount } from "svelte";
     import { fade, slide } from "svelte/transition";
     import { IsTokenExpired, IsValidToken } from "$lib/Utils/Token";
+    // import { DeleteAllCookies } from "$lib/Utils/CookieHandler";
 
     let currentPath;
     $: currentPath = $page.url.pathname;
@@ -19,6 +20,14 @@
         isScrolled = window.scrollY > 20;
     };
 
+    const DeleteAllCookies = async () => {
+        await cookieStore.getAll().then((cookies) =>
+            cookies.forEach((cookie) => {
+                cookieStore.delete(cookie);
+            })
+        );
+    };
+
     const updateAuthState = () => {
         // const token = document.cookie;
         const token = document.cookie;
@@ -29,6 +38,7 @@
     const handleLogout = async () => {
         try {
             localStorage.removeItem("jwtToken");
+            await DeleteAllCookies();
             const response = await axios.get(
                 `${import.meta.env.VITE_API_URL}/users/logout`
             );

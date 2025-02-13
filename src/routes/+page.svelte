@@ -24,50 +24,55 @@
         );
     };
 
-    const loadFromCache = () => {
-        const cachedNotices = JSON.parse(localStorage.getItem(CACHE_KEY));
-        if (cachedNotices) {
-            allNotices = cachedNotices;
-            totalPages = Math.ceil(allNotices.length / 5);
-            applyFilters();
-            loading = false;
-        }
-    };
-
-    const saveToCache = (notices) => {
-        localStorage.setItem(CACHE_KEY, JSON.stringify(notices));
-        localStorage.setItem(CACHE_TIMESTAMP_KEY, Date.now().toString());
-    };
-
     const fetchNotices = async (page = 1) => {
-        loading = true;
-        try {
-            const response = await axios.get(
-                `${import.meta.env.VITE_API_URL}/notices/`,
-                { params: { page } }
-            );
-            allNotices = [...allNotices, ...response.data.data];
-            allNotices = allNotices.map(notice => {
-                if (notice.date) {
-                    const [day, month, year] = notice.date.split('/');
-                    const noticeDate = new Date(year, month - 1, day);
-                    const today = new Date();
-                    today.setHours(0, 0, 0, 0);
-                    if (noticeDate > today) {
-                        return { ...notice, isScheduled: true };
-                    }
-                }
-                return notice;
-            });
-            allNotices.sort((a, b) => b.ID - a.ID);
-            totalPages = Math.ceil(response.data.count / 5);
-            saveToCache(allNotices);
-            applyFilters();
-        } catch (error) {
-            console.error("Error fetching notices:", error);
+    loading = true;
+    
+    let localNotices = localStorage.getItem("notices");
+    let notices = localNotices ? JSON.parse(localNotices) : null;
+
+    if (notices) {
+        allNotices = notices;
+        totalPages = Math.ceil(allNotices.length / 5);
+        applyFilters();
+    }
+
+    try {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/notices/`, { params: { page } });
+        const { data, count } = response.data;
+        
+        // Process and mark scheduled notices
+        const today = new Date();
+        today.setHours(0, 0, 0, 0); // Normalize for date comparison
+
+        allNotices = data.map((notice) => {
+            if (notice.date) {
+                const [day, month, year] = notice.date.split("/");
+                const noticeDate = new Date(year, month - 1, day);
+                return { ...notice, isScheduled: noticeDate > today };
+            }
+            return notice;
+        });
+
+        // Sort notices by ID (assuming ID is a number)
+        allNotices.sort((a, b) => b.ID - a.ID);
+
+        // Update pagination & filters
+        totalPages = Math.ceil(count / 5);
+        applyFilters();
+
+        // Store in localStorage
+        localStorage.setItem("notices", JSON.stringify(allNotices));
+    } catch (error) {
+        console.error("Error fetching notices:", error);
+        
+        if (!notices) {
+            fetchText = "Unable to fetch notices. Please check your connection.";
         }
-        loading = false;
-    };
+    }
+
+    loading = false;
+};
+
 
     const formatDate = (date) => {
         if (!date) return "";
@@ -84,21 +89,21 @@
     };
 
     const applyFilters = () => {
+        const query = searchQuery.toLowerCase(); // Precompute lowercase search query
+        const dateFilterEnabled = Boolean(filterDate);
+        const yearFilterEnabled = Boolean(filterYear);
+
         filteredNotices = allNotices.filter((notice) => {
-            const matchesSearch = notice.title
-                .toLowerCase()
-                .includes(searchQuery.toLowerCase());
-
-            const matchesDate = filterDate
-                ? formatDate(notice.date) === filterDate
-                : true;
-
-            const matchesYear = filterYear
-                ? (filterYear === "1st Year" && notice.year === 1) ||
-                  (filterYear === "2nd Year" && notice.year === 2)
-                : true;
-
-            return matchesSearch && matchesDate && matchesYear;
+            if (!notice.title.toLowerCase().includes(query)) return false; // Early return for search
+            if (dateFilterEnabled && formatDate(notice.date) !== filterDate)
+                return false; // Skip if date doesn't match
+            if (yearFilterEnabled) {
+                if (filterYear === "1st Year" && notice.year !== 1)
+                    return false;
+                if (filterYear === "2nd Year" && notice.year !== 2)
+                    return false;
+            }
+            return true; // Passed all filters
         });
     };
 
@@ -115,12 +120,7 @@
     };
 
     onMount(() => {
-        const isPageReload = window.performance.navigation.type === 1;
-        if (isPageReload || !isCacheValid()) {
-            fetchNotices(currentPage);
-        } else {
-            loadFromCache();
-        }
+        fetchNotices(currentPage);
     });
 </script>
 
@@ -164,8 +164,18 @@
                             on:input={handleInputChange}
                             autocomplete="on"
                         />
-                        <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        <svg
+                            class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                            />
                         </svg>
                     </div>
                     <input
@@ -231,79 +241,87 @@
                 <div class="space-y-6">
                     {#each filteredNotices as notice (notice.ID)}
                         {#if !notice.isScheduled}
-                        <div class="group">
-                            <div class="relative">
-                                <div
-                                    class="absolute -inset-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl blur opacity-10 group-hover:opacity-30 transition duration-300"
-                                ></div>
-                                <div
-                                    class="relative bg-gray-800/80 backdrop-blur-sm border border-gray-700/50 rounded-2xl p-6 transition-all duration-300 hover:transform hover:-translate-y-1"
-                                >
+                            <div class="group">
+                                <div class="relative">
                                     <div
-                                        class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4"
+                                        class="absolute -inset-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl blur opacity-10 group-hover:opacity-30 transition duration-300"
+                                    ></div>
+                                    <div
+                                        class="relative bg-gray-800/80 backdrop-blur-sm border border-gray-700/50 rounded-2xl p-6 transition-all duration-300 hover:transform hover:-translate-y-1"
                                     >
-                                        <h2
-                                            class="text-2xl font-extrabold text-indigo-300 bg-clip-text text-transparent
+                                        <div
+                                            class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4"
+                                        >
+                                            <h2
+                                                class="text-2xl font-extrabold text-indigo-300 bg-clip-text text-transparent
            bg-gradient-to-r from-blue-400 to-purple-600
            group-hover:from-purple-600 group-hover:to-blue-400
            transition-all duration-300 ease-in-out"
-                                        >
-                                            {notice.title}
-                                        </h2>
-
-                                        <div class="flex items-center gap-3">
-                                            <span
-                                                class="px-3 py-1 text-sm font-medium bg-blue-500/10 text-blue-400 rounded-full"
                                             >
-                                                {notice.year === 1
-                                                    ? "1st Year"
-                                                    : "2nd Year"}
-                                            </span>
-                                            <span class="text-sm text-gray-400">
-                                                {formatDisplayDate(notice.date)}
-                                            </span>
+                                                {notice.title}
+                                            </h2>
+
+                                            <div
+                                                class="flex items-center gap-3"
+                                            >
+                                                <span
+                                                    class="px-3 py-1 text-sm font-medium bg-blue-500/10 text-blue-400 rounded-full"
+                                                >
+                                                    {notice.year === 1
+                                                        ? "1st Year"
+                                                        : "2nd Year"}
+                                                </span>
+                                                <span
+                                                    class="text-sm text-gray-400"
+                                                >
+                                                    {formatDisplayDate(
+                                                        notice.date
+                                                    )}
+                                                </span>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="prose prose-invert max-w-none">
                                         <div
-                                            class="text-slate-300 leading-relaxed [&_
-                                                   │ a]:text-blue-400 [&_a]:underline [&_a]:hover:text-blue-300"
+                                            class="prose prose-invert max-w-none"
                                         >
-                                            {@html notice.content}
+                                            <div
+                                                class="text-slate-300 leading-relaxed [&_
+                                                   │ a]:text-blue-400 [&_a]:underline [&_a]:hover:text-blue-300"
+                                            >
+                                                {@html notice.content}
+                                            </div>
                                         </div>
-                                    </div>
-                                    {#if notice.files && notice.files.length > 0}
-                                        {#each notice.files as file}
-                                            {#if getFileType(file) === "pdf"}
-                                                <div
-                                                    class="flex justify-center mt-4"
-                                                >
-                                                    <a
-                                                        href={`https://res.cloudinary.com/djqao3rbs/image/upload/fl_attachment/${file.filename.split("/image/upload/")[1]}`}
-                                                        download={file.filename}
-                                                        class="px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-semibold text-lg"
+                                        {#if notice.files && notice.files.length > 0}
+                                            {#each notice.files as file}
+                                                {#if getFileType(file) === "pdf"}
+                                                    <div
+                                                        class="flex justify-center mt-4"
                                                     >
-                                                        Download PDF
-                                                    </a>
-                                                </div>
-                                            {:else if getFileType(file) === "jpg" || getFileType(file) === "jpeg" || getFileType(file) === "png" || getFileType(file) === "gif"}
-                                                <div
-                                                    class="flex justify-center mt-4"
-                                                >
-                                                    <!-- svelte-ignore a11y_img_redundant_alt -->
-                                                    <img
-                                                        src={file.filename}
-                                                        alt="Notice Image"
-                                                        class="w-full h-72 object-cover rounded-lg"
-                                                        style="margin-top: 10px;"
-                                                    />
-                                                </div>
-                                            {/if}
-                                        {/each}
-                                    {/if}
+                                                        <a
+                                                            href={`https://res.cloudinary.com/djqao3rbs/image/upload/fl_attachment/${file.filename.split("/image/upload/")[1]}`}
+                                                            download={file.filename}
+                                                            class="px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-semibold text-lg"
+                                                        >
+                                                            Download PDF
+                                                        </a>
+                                                    </div>
+                                                {:else if getFileType(file) === "jpg" || getFileType(file) === "jpeg" || getFileType(file) === "png" || getFileType(file) === "gif"}
+                                                    <div
+                                                        class="flex justify-center mt-4"
+                                                    >
+                                                        <!-- svelte-ignore a11y_img_redundant_alt -->
+                                                        <img
+                                                            src={file.filename}
+                                                            alt="Notice Image"
+                                                            class="w-full h-72 object-cover rounded-lg"
+                                                            style="margin-top: 10px;"
+                                                        />
+                                                    </div>
+                                                {/if}
+                                            {/each}
+                                        {/if}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                         {/if}
                     {/each}
                 </div>

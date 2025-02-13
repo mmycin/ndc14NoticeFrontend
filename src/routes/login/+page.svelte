@@ -12,6 +12,11 @@
 
     $: username = username.trim();
     $: roll = roll.trim();
+    $: roll = roll.trim().replace(/\D/g, ''); // Remove non-numeric characters
+
+    function validateRoll(roll: string) {
+        return roll.match(/^[0-9]{4}$/);
+    }
 
     if (typeof window !== 'undefined') {
         const token = document.cookie;
@@ -87,6 +92,8 @@
                                 autocomplete="on"
                                 class="w-full px-5 py-4 rounded-xl bg-gray-700/50 text-gray-100 border border-gray-600 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 placeholder-gray-400 transition-all duration-200 group-hover:border-gray-500"
                                 placeholder="College Roll Number"
+                                minlength="8"
+                                maxlength="8"
                                 required
                             />
                             <svg class="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 group-hover:text-gray-300 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
